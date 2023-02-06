@@ -72,6 +72,15 @@ input_data_test = np.reshape(input_data_test, (-1, 181, 276))
 input_data_test = input_data_test[:, 0:80, 0:176]
 input_data_test = np.reshape(input_data_test, (-1, 80*176))
 
+## Normalize test dataset
+def preprocess_test(x, max_v, min_v):
+    y = np.copy(x)
+    for i in range(np.size(max_v)):
+        if (max_v[i] - min_v[i] > 0):
+            y[:, i] = (x[:, i] - min_v[i]) / (max_v[i] - min_v[i])
+        else:
+            continue
+    return y
 input_data_test = preprocess_test(input_data_test, max_v, min_v)
 
 input_data_test_CNN = np.reshape(input_data_test, (-1, 80, 176, 1))
